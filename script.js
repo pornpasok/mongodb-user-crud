@@ -10,10 +10,11 @@ function loadTable() {
       for (let object of objects) {
         trHTML += '<tr>'; 
         trHTML += '<td>'+object['id']+'</td>';
-        trHTML += '<td><img width="50px" src="'+object['avatar']+'" class="avatar"></td>';
+        trHTML += '<td>'+object['expiredate']+'</td>';
         trHTML += '<td>'+object['fname']+'</td>';
         trHTML += '<td>'+object['lname']+'</td>';
         trHTML += '<td>'+object['username']+'</td>';
+        trHTML += '<td>'+object['role']+'</td>';
         trHTML += '<td><button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox('+object['id']+')">Edit</button>';
         trHTML += '<button type="button" class="btn btn-outline-danger" onclick="userDelete('+object['id']+')">Del</button></td>';
         trHTML += "</tr>";
@@ -33,8 +34,9 @@ function showUserCreateBox() {
       '<input id="fname" class="swal2-input" placeholder="First">' +
       '<input id="lname" class="swal2-input" placeholder="Last">' +
       '<input id="username" class="swal2-input" placeholder="Username">' +
+      '<input id="role" class="swal2-input" placeholder="Role">' +
       '<input id="email" class="swal2-input" placeholder="Email">' +
-      '<input id="avatar" class="swal2-input" placeholder="Avatar">',
+      '<input id="expiredate" class="swal2-input" placeholder="Expire Date">',
     focusConfirm: false,
     preConfirm: () => {
       userCreate();
@@ -47,15 +49,16 @@ function userCreate() {
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
   const username = document.getElementById("username").value;
+  const role = document.getElementById("role").value;
   const email = document.getElementById("email").value;
-  const avatar = document.getElementById("avatar").value;
+  const expiredate = document.getElementById("expiredate").value;
     
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "http://localhost:3000/users/create");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({ 
-    "id": id, "fname": fname, "lname": lname, "username": username, "email": email, 
-    "avatar": avatar
+    "id": id, "fname": fname, "lname": lname, "username": username, "role": role, "email": email, 
+    "expiredate": expiredate
   }));
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -99,8 +102,9 @@ function showUserEditBox(id) {
           '<input id="fname" class="swal2-input" placeholder="First" value="'+user['fname']+'">' +
           '<input id="lname" class="swal2-input" placeholder="Last" value="'+user['lname']+'">' +
           '<input id="username" class="swal2-input" placeholder="Username" value="'+user['username']+'">' +
+          '<input id="role" class="swal2-input" placeholder="Role" value="'+user['role']+'">' +
           '<input id="email" class="swal2-input" placeholder="Email" value="'+user['email']+'">' +
-          '<input id="avatar" class="swal2-input" placeholder="Avatar" value="'+user['avatar']+'">',
+          '<input id="expiredate" class="swal2-input" placeholder="Expire Date" value="'+user['expiredate']+'">',
         focusConfirm: false,
         preConfirm: () => {
           userEdit();
@@ -115,15 +119,16 @@ function userEdit() {
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
   const username = document.getElementById("username").value;
+  const role = document.getElementById("role").value;
   const email = document.getElementById("email").value;
-  const avatar = document.getElementById("avatar").value;
+  const expiredate = document.getElementById("expiredate").value;
     
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", "http://localhost:3000/users/update");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({ 
-    "id": id, "fname": fname, "lname": lname, "username": username, "email": email, 
-    "avatar": avatar
+    "id": id, "fname": fname, "lname": lname, "username": username, "role": role, "email": email, 
+    "expiredate": expiredate
   }));
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {

@@ -40,8 +40,9 @@ app.post('/users/create', async (req, res) => {
         fname: user.fname,
         lname: user.lname,
         username: user.username,
+        role: user.role,
         email: user.email,
-        avatar: user.avatar
+        expiredate: user.expiredate
     });
     await client.close();
     res.status(200).send({
@@ -83,8 +84,9 @@ app.put('/users/update', async (req, res) => {
             fname: user.fname,
             lname: user.lname,
             username: user.username,
+            role: user.role,
             email: user.email,
-            avatar: user.avatar
+            expiredate: user.expiredate
         }
     });
     await client.close();
