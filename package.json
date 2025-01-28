@@ -1,5 +1,5 @@
 {
-  "name": "mongodb-express-crud",
+  "name": "mongodb-user-crud",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "elastic-apm-node": "^4.4.0",
     "express": "^4.18.2",
     "mongodb": "^6.3.0"
   }
