@@ -1,4 +1,4 @@
-# mongodb-express-crud
+# mongodb-user-crud
 
 ### Native Nodejs
 ```
@@ -13,12 +13,12 @@ node server.js
 ### Docker
 ```
 # Build
-docker build -t mongodb-express-crud .
+docker build -t mongodb-user-crud .
 
 # Run
 docker run -d -p 3000:3000 \
 -e MONGODB_URI="mongodb+srv://XXX:XXX@cluster0.yuxvtce.mongodb.net/?retryWrites=true&w=majority" \
-mongodb-express-crud
+mongodb-user-crud
 
 ```
 
