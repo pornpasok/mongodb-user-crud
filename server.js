@@ -32,6 +32,14 @@ const { MongoClient } = require("mongodb");
 const uri = process.env.MONGODB_URI;
 
 app.post('/users/create', async (req, res) => {
+    // Gen Password
+    var generator = require('generate-password');
+    var password = generator.generate({
+        length: 10,
+        numbers: true
+    });
+    console.log(password);
+
     const user = req.body;
     const client = new MongoClient(uri);
     await client.connect();
@@ -44,6 +52,15 @@ app.post('/users/create', async (req, res) => {
         email: user.email,
         expiredate: user.expiredate
     });
+
+    // Create DB User
+    const db = client.db('mydb');
+    await db.command({
+        createUser: user.username,
+        pwd: password,
+        roles: [{role: user.role, db: 'mydb'}],
+    });
+
     await client.close();
     res.status(200).send({
         "status": "ok",
@@ -74,6 +91,14 @@ app.get('/users/:id', async (req, res) => {
 })
 
 app.put('/users/update', async (req, res) => {
+    // Gen Password
+    var generator = require('generate-password');
+    var password = generator.generate({
+        length: 10,
+        numbers: true
+    });
+    console.log(password);
+
     const user = req.body;
     const id = parseInt(user.id);
     const client = new MongoClient(uri);
@@ -89,6 +114,15 @@ app.put('/users/update', async (req, res) => {
             expiredate: user.expiredate
         }
     });
+
+    // Update DB User
+    const db = client.db('mydb');
+    await db.command({
+        updateUser: user.username,
+        pwd: password,
+        roles: [{role: user.role, db: 'mydb'}],
+    });
+
     await client.close();
     res.status(200).send({
         "status": "ok",
