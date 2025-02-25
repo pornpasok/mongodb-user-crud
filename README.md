@@ -4,9 +4,11 @@
 ```
 # Export ENV
 export MONGODB_URI="mongodb+srv://XXX:XXX@cluster0.yuxvtce.mongodb.net/?retryWrites=true&w=majority"
+export EMAIL_USER="XXX@gmail.com"
+export EMAIL_KEY="XXX"
 
 # Usage
-npm install express cors mongodb
+npm install express cors mongodb generate-password nodemailer 
 node server.js
 ```
 
