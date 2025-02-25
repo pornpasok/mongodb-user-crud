@@ -48,17 +48,18 @@ app.post('/users/create', async (req, res) => {
         fname: user.fname,
         lname: user.lname,
         username: user.username,
+        dbname: user.dbname,
         role: user.role,
         email: user.email,
         expiredate: user.expiredate
     });
 
     // Create DB User
-    const db = client.db('mydb');
+    const db = client.db(user.dbname);
     await db.command({
         createUser: user.username,
         pwd: password,
-        roles: [{role: user.role, db: 'mydb'}],
+        roles: [{role: user.role, db: user.dbname}],
     });
 
     await client.close();
@@ -66,6 +67,31 @@ app.post('/users/create', async (req, res) => {
         "status": "ok",
         "message": "User with ID = " + user.id + " is created",
         "user": user
+    });
+
+    // Send Mail to User
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'ton350d@gmail.com',
+        pass: 'zfde frcb pezo fgzy'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'ton350d@gmail.com',
+      to: user.email,
+      subject: 'MongoDB Information',
+      text: 'Username: ' + user.username + '\nPassword: ' + password + '\nDB: ' + user.dbname + '\nRole: ' + user.role + '\nExpire Date: ' + user.expiredate
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
     });
 })
 
@@ -109,6 +135,7 @@ app.put('/users/update', async (req, res) => {
             fname: user.fname,
             lname: user.lname,
             username: user.username,
+            dbname: user.dbname,
             role: user.role,
             email: user.email,
             expiredate: user.expiredate
@@ -116,11 +143,11 @@ app.put('/users/update', async (req, res) => {
     });
 
     // Update DB User
-    const db = client.db('mydb');
+    const db = client.db(user.dbname);
     await db.command({
         updateUser: user.username,
         pwd: password,
-        roles: [{role: user.role, db: 'mydb'}],
+        roles: [{role: user.role, db: user.dbname}],
     });
 
     await client.close();
@@ -128,6 +155,31 @@ app.put('/users/update', async (req, res) => {
         "status": "ok",
         "message": "User with ID = " + id + " is updated",
         "user": user
+    });
+
+    // Send Mail to User
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_KEY
+      }
+    });
+    
+    var mailOptions = {
+      from: 'ton350d@gmail.com',
+      to: user.email,
+      subject: 'MongoDB Information',
+      text: 'Username: ' + user.username + '\nPassword: ' + password + '\nDB: ' + user.dbname + '\nRole: ' + user.role + '\nExpire Date: ' + user.expiredate
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
     });
 })
 

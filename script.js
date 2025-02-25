@@ -14,6 +14,7 @@ function loadTable() {
         trHTML += '<td>'+object['fname']+'</td>';
         trHTML += '<td>'+object['lname']+'</td>';
         trHTML += '<td>'+object['username']+'</td>';
+        trHTML += '<td>'+object['dbname']+'</td>';
         trHTML += '<td>'+object['role']+'</td>';
         trHTML += '<td><button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox('+object['id']+')">Edit</button>';
         trHTML += '<button type="button" class="btn btn-outline-danger" onclick="userDelete('+object['id']+')">Del</button></td>';
@@ -34,6 +35,7 @@ function showUserCreateBox() {
       '<input id="fname" class="swal2-input" placeholder="First">' +
       '<input id="lname" class="swal2-input" placeholder="Last">' +
       '<input id="username" class="swal2-input" placeholder="Username">' +
+      '<input id="dbname" class="swal2-input" placeholder="DB">' +
       '<input id="role" class="swal2-input" placeholder="Role">' +
       '<input id="email" class="swal2-input" placeholder="Email">' +
       '<input id="expiredate" class="swal2-input" placeholder="Expire Date">',
@@ -49,6 +51,7 @@ function userCreate() {
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
   const username = document.getElementById("username").value;
+  const dbname = document.getElementById("dbname").value;
   const role = document.getElementById("role").value;
   const email = document.getElementById("email").value;
   const expiredate = document.getElementById("expiredate").value;
@@ -57,7 +60,7 @@ function userCreate() {
   xhttp.open("POST", "http://localhost:3000/users/create");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({ 
-    "id": id, "fname": fname, "lname": lname, "username": username, "role": role, "email": email, 
+    "id": id, "fname": fname, "lname": lname, "username": username, "dbname": dbname, "role": role, "email": email, 
     "expiredate": expiredate
   }));
   xhttp.onreadystatechange = function() {
@@ -102,6 +105,7 @@ function showUserEditBox(id) {
           '<input id="fname" class="swal2-input" placeholder="First" value="'+user['fname']+'">' +
           '<input id="lname" class="swal2-input" placeholder="Last" value="'+user['lname']+'">' +
           '<input id="username" class="swal2-input" placeholder="Username" value="'+user['username']+'">' +
+          '<input id="dbname" class="swal2-input" placeholder="DB" value="'+user['dbname']+'">' +
           '<input id="role" class="swal2-input" placeholder="Role" value="'+user['role']+'">' +
           '<input id="email" class="swal2-input" placeholder="Email" value="'+user['email']+'">' +
           '<input id="expiredate" class="swal2-input" placeholder="Expire Date" value="'+user['expiredate']+'">',
@@ -119,6 +123,7 @@ function userEdit() {
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
   const username = document.getElementById("username").value;
+  const dbname = document.getElementById("dbname").value;
   const role = document.getElementById("role").value;
   const email = document.getElementById("email").value;
   const expiredate = document.getElementById("expiredate").value;
@@ -127,7 +132,7 @@ function userEdit() {
   xhttp.open("PUT", "http://localhost:3000/users/update");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({ 
-    "id": id, "fname": fname, "lname": lname, "username": username, "role": role, "email": email, 
+    "id": id, "fname": fname, "lname": lname, "username": username, "dbname": dbname, "role": role, "email": email, 
     "expiredate": expiredate
   }));
   xhttp.onreadystatechange = function() {

@@ -14,7 +14,7 @@ async function run() {
 
     // Find and print the storage statistics for the "sample_mflix" database using the 'dbStats' command
     const result = await db.command({
-      dropUser: 'test'
+      dropUser: 'ton'
     });
     console.log(result);
   } finally {
