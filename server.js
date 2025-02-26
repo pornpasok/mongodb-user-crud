@@ -67,8 +67,7 @@ app.post('/users/create', async (req, res) => {
     await client.close();
     res.status(200).send({
         "status": "ok",
-        "message": "User with ID = " + user.id + " is created",
-        "user": user
+        "message": "User = " + user.username + " is created"
     });
 
     // Send Mail to User
