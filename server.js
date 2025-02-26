@@ -51,7 +51,8 @@ app.post('/users/create', async (req, res) => {
         dbname: user.dbname,
         role: user.role,
         email: user.email,
-        expiredate: user.expiredate
+        expiredate: user.expiredate,
+        status: 'active'
     });
 
     // Create DB User
@@ -138,7 +139,8 @@ app.put('/users/update', async (req, res) => {
             dbname: user.dbname,
             role: user.role,
             email: user.email,
-            expiredate: user.expiredate
+            expiredate: user.expiredate,
+            status: 'active'
         }
     });
 
@@ -153,8 +155,7 @@ app.put('/users/update', async (req, res) => {
     await client.close();
     res.status(200).send({
         "status": "ok",
-        "message": "User with ID = " + id + " is updated",
-        "user": user
+        "message": "User with ID = " + id + " is updated"
     });
 
     // Send Mail to User
@@ -183,17 +184,75 @@ app.put('/users/update', async (req, res) => {
     });
 })
 
-app.delete('/users/delete', async (req, res) => {
-    const id = parseInt(req.body.id);
-    const client = new MongoClient(uri);
-    await client.connect();
-    await client.db('mydb').collection('users').deleteOne({ 'id': id });
-    await client.close();
-    res.status(200).send({
-        "status": "ok",
-        "message": "User with ID = " + id + " is deleted"
-    });
+// app.delete('/users/delete', async (req, res) => {
+//     const id = parseInt(req.body.id);
+//     const client = new MongoClient(uri);
+//     await client.connect();
+//     await client.db('mydb').collection('users').deleteOne({ 'id': id });
+//     await client.close();
+//     res.status(200).send({
+//         "status": "ok",
+//         "message": "User ID = " + id + " is deleted"
+//     });
+// })
+
+// Delete with Update Status
+app.put('/users/delete', async (req, res) => {
+  const user = req.body;
+  const id = parseInt(user.id);
+  const client = new MongoClient(uri);
+  await client.connect();
+  await client.db('mydb').collection('users').updateOne({ 'id': id }, {
+      "$set": {
+          id: parseInt(user.id),
+          status: 'delete'
+      }
+  });
+
+  console.log('userrname: ' +user.username)
+  console.log('dbname: ' +user.dbname)
+  
+  // Delete DB User
+  const db = client.db(user.dbname);
+  await db.command({
+      dropUser: user.username
+  });
+  
+  await client.close();
+  res.status(200).send({
+      "status": "ok",
+      "message": "User  = " + user.username + " is delete"
+  });
+
+  // Send Mail to User
+  /*
+  var nodemailer = require('nodemailer');
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_KEY
+    }
+  });
+  
+  var mailOptions = {
+    from: 'ton350d@gmail.com',
+    to: user.email,
+    subject: 'MongoDB Information',
+    text: 'Username: ' + user.username + '\nPassword: ' + password + '\nDB: ' + user.dbname + '\nRole: ' + user.role + '\nExpire Date: ' + user.expiredate
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+  */
 })
+
+
 
 
 app.listen(port, () => {
