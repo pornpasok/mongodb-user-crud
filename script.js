@@ -17,8 +17,13 @@ function loadTable() {
         trHTML += '<td>'+object['username']+'</td>';
         trHTML += '<td>'+object['dbname']+'</td>';
         trHTML += '<td>'+object['role']+'</td>';
-        trHTML += '<td><button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox('+object['id']+')">Edit</button>';
-        trHTML += '<button type="button" class="btn btn-outline-danger" onclick="showUserDeleteBox('+object['id']+')">Del</button></td>';
+        // Check delete status
+        if (object['status'] == 'delete') {
+          trHTML += '<td>'+object['status']+'</td>';
+        } else {
+          trHTML += '<td><button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox('+object['id']+')">Edit</button>';
+          trHTML += '<button type="button" class="btn btn-outline-danger" onclick="showUserDeleteBox('+object['id']+')">Del</button></td>';
+        }
         trHTML += "</tr>";
       }
       document.getElementById("mytable").innerHTML = trHTML;

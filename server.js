@@ -209,8 +209,7 @@ app.put('/users/delete', async (req, res) => {
       }
   });
 
-  console.log('userrname: ' +user.username)
-  console.log('dbname: ' +user.dbname)
+  console.log('DELETE username: ' +user.username+ ' dbname: ' +user.dbname)
   
   // Delete DB User
   const db = client.db(user.dbname);
