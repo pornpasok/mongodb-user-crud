@@ -52,7 +52,8 @@ app.post('/users/create', async (req, res) => {
         role: user.role,
         email: user.email,
         expiredate: user.expiredate,
-        status: 'active'
+        status: 'active',
+        dateadd: new Date()
     });
 
     // Create DB User
@@ -140,7 +141,8 @@ app.put('/users/update', async (req, res) => {
             role: user.role,
             email: user.email,
             expiredate: user.expiredate,
-            status: 'active'
+            status: 'active',
+            dateadd: new Date()
         }
     });
 
@@ -205,7 +207,8 @@ app.put('/users/delete', async (req, res) => {
   await client.db('mydb').collection('users').updateOne({ 'id': id }, {
       "$set": {
           id: parseInt(user.id),
-          status: 'delete'
+          status: 'delete',
+          dateadd: new Date()
       }
   });
 
@@ -224,7 +227,6 @@ app.put('/users/delete', async (req, res) => {
   });
 
   // Send Mail to User
-  /*
   var nodemailer = require('nodemailer');
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -238,7 +240,7 @@ app.put('/users/delete', async (req, res) => {
     from: 'ton350d@gmail.com',
     to: user.email,
     subject: 'MongoDB Information',
-    text: 'Username: ' + user.username + '\nPassword: ' + password + '\nDB: ' + user.dbname + '\nRole: ' + user.role + '\nExpire Date: ' + user.expiredate
+    text: 'Username: ' + user.username + ' DB: ' + user.dbname + ' Role: ' + user.role + ' Expire Date: ' + user.expiredate + ' is delete.'
   };
   
   transporter.sendMail(mailOptions, function(error, info){
@@ -248,7 +250,6 @@ app.put('/users/delete', async (req, res) => {
       console.log('Email sent: ' + info.response);
     }
   });
-  */
 })
 
 

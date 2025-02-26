@@ -17,6 +17,7 @@ function loadTable() {
         trHTML += '<td>'+object['username']+'</td>';
         trHTML += '<td>'+object['dbname']+'</td>';
         trHTML += '<td>'+object['role']+'</td>';
+        trHTML += '<td>'+object['dateadd']+'</td>';
         // Check delete status
         if (object['status'] == 'delete') {
           trHTML += '<td>'+object['status']+'</td>';

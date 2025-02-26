@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 # If you are building your code for production
 # RUN npm ci --only=production
 
-RUN npm install express cors mongodb elastic-apm-node
+RUN npm install express cors mongodb generate-password nodemailer
 
 # Bundle app source
 COPY . .
